@@ -9,7 +9,7 @@ async function fetchAndRenderList() {
   listDiv.innerHTML = "";
   ourList.forEach((item) => {
     const itemDiv = document.createElement("div");
-    itemDiv.innerHTML = `<p> ID: ${item.id}, Name ${item.name}, Grade: ${item.grade}, Typw of Animal: ${item.type_of_animal}, Starsign: ${item.starsign}</p>`;
+    itemDiv.innerHTML = `<p> ID: ${item.id}, Name ${item.name}, Grade: ${item.grade}, Type of Animal: ${item.type_of_animal}, Starsign: ${item.starsign}</p>`;
     listDiv.appendChild(itemDiv);
   });
 }

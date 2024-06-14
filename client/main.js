@@ -3,7 +3,9 @@ import express from "express";
 const form = document.getElementById("messageForm");
 
 async function fetchAndRenderList() {
-  const response = await fetch(`http://localhost:5050/pets`); // want server url on render
+  const response = await fetch(
+    `https://guestbookassignment-server.onrender.com/pets`
+  ); // want server url on render
   const ourList = await response.json();
   const listDiv = document.getElementById("display");
   listDiv.innerHTML = "";
@@ -21,13 +23,16 @@ async function submitButton(event) {
   const formData = new FormData(form);
   const formValues = Object.fromEntries(formData);
   try {
-    const response = await fetch(`http://localost:5050/pets`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(formValues),
-    });
+    const response = await fetch(
+      `https://guestbookassignment-server.onrender.com/pets`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(formValues),
+      }
+    );
 
     const data = await response.json();
 

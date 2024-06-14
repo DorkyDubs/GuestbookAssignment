@@ -1,12 +1,11 @@
-import { PORT } from "./server.js";
-import { firstEndpoint } from "./server.js";
+import express from "express";
 
 const form = document.getElementById("messageForm");
 
 async function fetchAndRenderList() {
-  const response = await fetch(`http://localhost:${PORT}/pets`); // want server url on render
+  const response = await fetch(`http://localhost:5050/pets`); // want server url on render
   const ourList = await response.json();
-  const listDiv = document.getElementById("app");
+  const listDiv = document.getElementById("display");
   listDiv.innerHTML = "";
   ourList.forEach((item) => {
     const itemDiv = document.createElement("div");
@@ -17,15 +16,28 @@ async function fetchAndRenderList() {
 
 form.addEventListener("submit", submitButton);
 
-function submitButton(event) {
+async function submitButton(event) {
   event.preventDefault();
   const formData = new FormData(form);
   const formValues = Object.fromEntries(formData);
-  fetch(`http://localost:${PORT}/${firstEndpoint}`, {
-    method: "GET",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify(formValues),
-  });
+  try {
+    const response = await fetch(`http://localost:5050/pets`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(formValues),
+    });
+
+    const data = await response.json();
+
+    if (data.succes) {
+      console.log("Data saved - nice one");
+      fetchAndRenderList();
+    } else {
+      console.log(" fluffed it");
+    }
+  } catch (error) {
+    console.log("erroneous", error);
+  }
 }

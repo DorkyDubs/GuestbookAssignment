@@ -49,3 +49,19 @@ app.get("/somePets", async function (request, response) {
       `);
   response.json(result.rows);
 });
+
+app.post(`/ramen`, async (req, res) => {
+  const { Flavour, Price, Spiciness, Time_To_Cook } = req.body;
+
+  try {
+    await db.query(
+      `INSERT into ramen (Flavour, Price, Spiciness,Time_To_Cook) Values ($1, $2, $3, $4)`,
+      [Flavour, Price, Spiciness, Time_To_Cook]
+    );
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error("Nope", error);
+    res.status(500);
+  }
+});

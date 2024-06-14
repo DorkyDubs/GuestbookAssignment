@@ -17,7 +17,7 @@ export const db = new pg.Pool({
 });
 
 const PORT = 8080;
-const firstEndpoint = "noodles";
+// const firstEndpoint = "noodles";
 
 app.listen(PORT, () => {
   console.log(`server up at Port ${PORT}`);
@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
 
 app.get("/pets", async (req, res) => {
   // write a sql query that selects data fromthe database
-  const result = await db.query(`SELECT * FROM PETS`);
+  const result = await db.query(`SELECT * FROM pets`);
   console.log(result);
   // parse resultinto json and wrangle data from result obj
   res.json(result.rows);
@@ -45,18 +45,18 @@ app.get("/pets", async (req, res) => {
 
 app.get("/somePets", async function (request, response) {
   // write a sql query that SELECTS specific data from datat base
-  const result = await db.query(`SELECT * FROM PETS WHERE grade=100
+  const result = await db.query(`SELECT * FROM pets 
       `);
   response.json(result.rows);
 });
 
-app.post(`/ramen`, async (req, res) => {
-  const { Flavour, Price, Spiciness, Time_To_Cook } = req.body;
+app.post(`/pets`, async (req, res) => {
+  const { name, type_of_animal, starsign, grade } = req.body;
 
   try {
     await db.query(
-      `INSERT into ramen (Flavour, Price, Spiciness,Time_To_Cook) Values ($1, $2, $3, $4)`,
-      [Flavour, Price, Spiciness, Time_To_Cook]
+      `INSERT into pets (name, type_of_animal, starsign, grade) Values ($1, $2, $3, $4)`,
+      [name, type_of_animal, starsign, grade]
     );
 
     res.status(200).json({ success: true });

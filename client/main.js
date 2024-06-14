@@ -1,21 +1,19 @@
-import express from "express";
-
 const form = document.getElementById("messageForm");
 
 async function fetchAndRenderList() {
   const response = await fetch(
-    `https://guestbookassignment-server.onrender.com/pets`
+    `https://guestbookassignment-client.onrender.com/pets`
   ); // want server url on render
   const ourList = await response.json();
   const listDiv = document.getElementById("display");
   listDiv.innerHTML = "";
   ourList.forEach((item) => {
     const itemDiv = document.createElement("div");
-    itemDiv.innerHTML = `<p> ID: ${item.id}, Name ${item.name}, Location ${item.location}</p>`;
+    itemDiv.innerHTML = `<p> ID: ${item.id}, Name ${item.name}, Grade: ${item.grade}, Typw of Animal: ${item.type_of_animal}, Starsign: ${item.starsign}</p>`;
     listDiv.appendChild(itemDiv);
   });
 }
-
+fetchAndRenderList();
 form.addEventListener("submit", submitButton);
 
 async function submitButton(event) {
@@ -24,7 +22,7 @@ async function submitButton(event) {
   const formValues = Object.fromEntries(formData);
   try {
     const response = await fetch(
-      `https://guestbookassignment-server.onrender.com/pets`,
+      `https://guestbookassignment-client.onrender.com/pets`,
       {
         method: "POST",
         headers: {
@@ -36,7 +34,7 @@ async function submitButton(event) {
 
     const data = await response.json();
 
-    if (data.succes) {
+    if (data.success) {
       console.log("Data saved - nice one");
       fetchAndRenderList();
     } else {
